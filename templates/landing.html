@@ -1,0 +1,490 @@
+{% extends "base.html" %}
+
+{% block title %}SkillAlign — AI-Powered Resume to Job Matching{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F7F6FC] text-[#17152F] flex flex-col">
+  <!-- Top Navbar -->
+  <header class="sticky top-0 z-40 bg-[#F7F6FC]/90 backdrop-blur-md border-b border-[#E9E5F2]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-8">
+      <!-- Zone 1: Brand -->
+      <a
+        href="#home"
+        class="flex items-center gap-2.5 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#5421D6] rounded-lg"
+      >
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5421D6] to-[#7652EA] text-white flex items-center justify-center shadow-sm">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            <rect width="20" height="14" x="2" y="6" rx="2"></rect>
+          </svg>
+        </span>
+        <span class="font-display text-xl font-bold tracking-tight text-[#19134F]">
+          Skill<span class="text-[#5421D6]">Align</span>
+        </span>
+      </a>
+
+      <!-- Zone 2: Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-[#524F6A]">
+        <a href="#home" class="hover:text-[#5421D6] transition-colors whitespace-nowrap shrink-0">Home</a>
+        <a href="#about" class="hover:text-[#5421D6] transition-colors whitespace-nowrap shrink-0">About</a>
+        <a href="#features" class="hover:text-[#5421D6] transition-colors whitespace-nowrap shrink-0">Features</a>
+        <a href="#contact" class="hover:text-[#5421D6] transition-colors whitespace-nowrap shrink-0">Contact</a>
+      </nav>
+
+      <!-- Zone 3: Primary CTA -->
+      <div class="flex items-center gap-3 shrink-0">
+        <a
+          href="/dashboard"
+          class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-sm font-semibold shadow-[0_8px_20px_rgba(84,33,214,0.22)] hover:brightness-105 transition-all whitespace-nowrap shrink-0"
+        >
+          Get Started
+        </a>
+
+        <button
+          id="landing-mobile-toggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          class="md:hidden w-11 h-11 rounded-xl border border-[#E9E5F2] bg-white flex items-center justify-center text-[#19134F] cursor-pointer"
+        >
+          <svg id="landing-menu-icon" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="landing-mobile-menu" class="hidden md:hidden border-t border-[#E9E5F2] bg-white px-4 py-4 space-y-2">
+      <a href="#home" class="landing-mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-[#17152F] hover:bg-[#F3F0FF]">Home</a>
+      <a href="#about" class="landing-mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-[#17152F] hover:bg-[#F3F0FF]">About</a>
+      <a href="#features" class="landing-mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-[#17152F] hover:bg-[#F3F0FF]">Features</a>
+      <a href="#contact" class="landing-mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-[#17152F] hover:bg-[#F3F0FF]">Contact</a>
+      <a
+        href="/dashboard"
+        class="block w-full mt-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-sm font-semibold text-center"
+      >
+        Get Started
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        class="absolute inset-x-0 top-0 h-[560px] bg-gradient-to-b from-[#F3F0FF]/80 via-[#F7F6FC] to-[#F7F6FC] pointer-events-none"
+      ></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 lg:pt-16 lg:pb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <!-- Left Column -->
+          <div class="lg:col-span-6 space-y-6">
+            <p class="text-sm font-semibold text-[#5421D6] tracking-wide">
+              CN6000 Resume-to-Job Matching System
+            </p>
+
+            <h1
+              class="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-[#17152F] leading-[1.12]"
+              style="text-wrap: balance"
+            >
+              AI-Powered Resume to
+              <span class="text-[#5421D6]">Job Matching</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-[#5B5872] leading-relaxed max-w-xl">
+              Upload your PDF or Word resume alongside a target job description. SkillAlign
+              extracts verified skills with spaCy, computes scikit-learn TF-IDF cosine similarity,
+              and surfaces exact skill gaps in seconds.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a
+                href="/dashboard?section=scanner"
+                class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white font-semibold text-sm sm:text-base shadow-[0_12px_28px_rgba(84,33,214,0.26)] hover:brightness-105 transition-all whitespace-nowrap shrink-0"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" x2="12" y1="3" y2="15"></line>
+                </svg>
+                <span>Analyze Your Resume</span>
+              </a>
+
+              <a
+                href="#features"
+                class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white border border-[#DCD5F2] text-[#19134F] font-semibold text-sm sm:text-base hover:bg-[#F3F0FF] hover:border-[#7652EA]/50 transition-all whitespace-nowrap shrink-0"
+              >
+                <span>Explore Features</span>
+                <svg class="w-4 h-4 text-[#5421D6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: 3D-style Illustration -->
+          <div class="lg:col-span-6">
+            {% include "partials/hero_illustration.html" %}
+          </div>
+        </div>
+
+        <!-- Three Value Pillars below Hero -->
+        <div class="mt-12 lg:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/85 backdrop-blur-sm border border-[#E9E5F2] rounded-2xl p-6 sm:p-7 shadow-[0_8px_30px_rgba(25,19,79,0.04)]">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl bg-[#F3F0FF] text-[#5421D6] flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <circle cx="11.5" cy="14.5" r="2.5"></circle>
+                <path d="M13.3 16.3 15 18"></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-display text-base font-bold text-[#17152F]">Smart Resume Analysis</h2>
+              <p class="mt-1 text-sm text-[#77758C] leading-relaxed">
+                Accurate PDF and DOCX text extraction powered by PyMuPDF and python-docx.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 md:border-l md:border-[#E9E5F2] md:pl-6">
+            <div class="w-11 h-11 rounded-xl bg-[#E8F8F1] text-[#16A66A] flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-display text-base font-bold text-[#17152F]">Intelligent Skill Matching</h2>
+              <p class="mt-1 text-sm text-[#77758C] leading-relaxed">
+                spaCy PhraseMatcher taxonomy separates confirmed skills from missing requirements.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 md:border-l md:border-[#E9E5F2] md:pl-6">
+            <div class="w-11 h-11 rounded-xl bg-[#EEF4FF] text-[#3B5BDB] flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 3v18h18"></path>
+                <path d="M18 17V9"></path>
+                <path d="M13 17V5"></path>
+                <path d="M8 17v-3"></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="font-display text-base font-bold text-[#17152F]">Instant Match Score</h2>
+              <p class="mt-1 text-sm text-[#77758C] leading-relaxed">
+                Transparent percentage alignment via scikit-learn TF-IDF cosine similarity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 lg:py-22 bg-white border-y border-[#E9E5F2]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold text-[#5421D6]">Core Capabilities</p>
+          <h2 class="mt-2 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#17152F]">
+            Built for transparent, accurate resume evaluation
+          </h2>
+          <p class="mt-3 text-base text-[#77758C] leading-relaxed">
+            Every score is computed directly by Python, spaCy, and scikit-learn from your uploaded
+            document and target job description.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="rounded-2xl border border-[#E9E5F2] bg-[#F7F6FC]/60 p-6 flex flex-col justify-between hover:border-[#7652EA]/40 transition-colors">
+            <div>
+              <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#5421D6] to-[#7652EA] text-white flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                  <path d="M10 9H8"></path>
+                  <path d="M16 13H8"></path>
+                  <path d="M16 17H8"></path>
+                </svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-bold text-[#17152F]">01. PDF & DOCX Parsing</h3>
+              <p class="mt-2 text-sm text-[#77758C] leading-relaxed">
+                Extracts clean body and table text from multi-page PDF and Word documents using
+                PyMuPDF and python-docx.
+              </p>
+            </div>
+            <p class="mt-5 text-xs font-medium text-[#5421D6]">Supports .pdf & .docx up to 5MB</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#E9E5F2] bg-[#F7F6FC]/60 p-6 flex flex-col justify-between hover:border-[#7652EA]/40 transition-colors">
+            <div>
+              <div class="w-11 h-11 rounded-xl bg-[#F3F0FF] text-[#5421D6] flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect width="16" height="16" x="4" y="4" rx="2"></rect>
+                  <rect width="6" height="6" x="9" y="9" rx="1"></rect>
+                  <path d="M15 2v2"></path><path d="M15 20v2"></path><path d="M2 15h2"></path><path d="M2 9h2"></path>
+                  <path d="M20 15h2"></path><path d="M20 9h2"></path><path d="M9 2v2"></path><path d="M9 20v2"></path>
+                </svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-bold text-[#17152F]">02. spaCy Skill Extraction</h3>
+              <p class="mt-2 text-sm text-[#77758C] leading-relaxed">
+                Lemmatizes text and matches technical aliases (such as ReactJS, sklearn, and
+                Postgres) into canonical competencies.
+              </p>
+            </div>
+            <p class="mt-5 text-xs font-medium text-[#5421D6]">spaCy PhraseMatcher pipeline</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#E9E5F2] bg-[#F7F6FC]/60 p-6 flex flex-col justify-between hover:border-[#7652EA]/40 transition-colors">
+            <div>
+              <div class="w-11 h-11 rounded-xl bg-[#E8F8F1] text-[#16A66A] flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                  <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                  <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                </svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-bold text-[#17152F]">03. TF-IDF Vector Scoring</h3>
+              <p class="mt-2 text-sm text-[#77758C] leading-relaxed">
+                Constructs unigram and bigram TF-IDF matrices with scikit-learn to measure exact
+                cosine similarity between documents.
+              </p>
+            </div>
+            <p class="mt-5 text-xs font-medium text-[#16A66A]">Deterministic similarity math</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#E9E5F2] bg-[#F7F6FC]/60 p-6 flex flex-col justify-between hover:border-[#7652EA]/40 transition-colors">
+            <div>
+              <div class="w-11 h-11 rounded-xl bg-[#FFF4E8] text-[#EA580C] flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                </svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-bold text-[#17152F]">04. Actionable Gap Insights</h3>
+              <p class="mt-2 text-sm text-[#77758C] leading-relaxed">
+                Separates matched competencies from missing target skills and delivers tailored
+                recommendations to improve alignment.
+              </p>
+            </div>
+            <p class="mt-5 text-xs font-medium text-[#EA580C]">Matched vs. missing breakdown</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 lg:py-22 bg-[#F7F6FC]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 space-y-5">
+            <p class="text-sm font-semibold text-[#5421D6]">About the Project</p>
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#17152F]">
+              Designed for the CN6000 Resume-to-Job Matching System
+            </h2>
+            <p class="text-base text-[#5B5872] leading-relaxed">
+              SkillAlign pairs Python NLP engineering with a modern SaaS analytics dashboard. Rather
+              than leaving candidates guessing why an application passes or fails screening, the
+              system breaks alignment into measurable skill coverage and TF-IDF similarity.
+            </p>
+            <div class="space-y-3 pt-2">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-[#16A66A] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <p class="text-sm text-[#17152F]">
+                  <span class="font-semibold">Focused Academic Scope:</span> Built exclusively for
+                  resume parsing, skill matching, and gap diagnostics without account walls or job
+                  boards.
+                </p>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-[#16A66A] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <p class="text-sm text-[#17152F]">
+                  <span class="font-semibold">In-Memory Document Processing:</span> Uploaded resumes
+                  are parsed in memory via PyMuPDF and python-docx and never persisted in external
+                  profiles.
+                </p>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-[#16A66A] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <p class="text-sm text-[#17152F]">
+                  <span class="font-semibold">Reproducible Scoring:</span> Combines 65% structured
+                  skill coverage with 35% scikit-learn TF-IDF cosine similarity.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6">
+            <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-8 shadow-[0_12px_36px_rgba(25,19,79,0.05)]">
+              <h3 class="font-display text-lg font-bold text-[#17152F]">
+                How SkillAlign Scores Your Resume
+              </h3>
+              <p class="mt-1 text-sm text-[#77758C]">Transparent multi-stage Python NLP pipeline</p>
+
+              <div class="mt-6 space-y-5">
+                <div class="p-4 rounded-xl bg-[#F3F0FF] border border-[#E2DAFC]">
+                  <div class="flex items-center justify-between text-sm font-semibold text-[#19134F]">
+                    <span>Structured Skill Coverage (spaCy)</span>
+                    <span class="font-mono tabular-nums text-[#5421D6]">65% Weight</span>
+                  </div>
+                  <p class="mt-1.5 text-xs text-[#5B5872] leading-relaxed">
+                    Measures the exact ratio of job-required technical and domain skills detected in
+                    your resume.
+                  </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-[#F7F6FC] border border-[#E9E5F2]">
+                  <div class="flex items-center justify-between text-sm font-semibold text-[#19134F]">
+                    <span>TF-IDF Cosine Similarity (scikit-learn)</span>
+                    <span class="font-mono tabular-nums text-[#5421D6]">35% Weight</span>
+                  </div>
+                  <p class="mt-1.5 text-xs text-[#5B5872] leading-relaxed">
+                    Evaluates contextual phrasing and unigram/bigram overlap across both documents.
+                  </p>
+                </div>
+
+                <a
+                  href="/dashboard?section=scanner"
+                  class="w-full py-3 px-5 rounded-xl bg-[#19134F] text-white text-sm font-semibold hover:bg-[#241B6E] transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>Launch Resume Scanner</span>
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 lg:py-22 bg-white border-t border-[#E9E5F2]">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p class="text-sm font-semibold text-[#5421D6]">Contact</p>
+          <h2 class="mt-2 font-display text-3xl font-extrabold tracking-tight text-[#17152F]">
+            Questions about the CN6000 Matching System?
+          </h2>
+          <p class="mt-2 text-sm sm:text-base text-[#77758C]">
+            Send feedback on skill taxonomy coverage, scoring calibration, or document parsing.
+          </p>
+        </div>
+
+        <div class="mt-8 rounded-2xl border border-[#E9E5F2] bg-[#F7F6FC]/70 p-6 sm:p-8">
+          <div id="contact-success" class="hidden text-center py-6 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-[#E8F8F1] text-[#16A66A] flex items-center justify-center mx-auto">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <h3 class="font-display text-lg font-bold text-[#17152F]">Feedback Recorded</h3>
+            <p class="text-sm text-[#77758C] max-w-md mx-auto">
+              Thank you for reaching out. Your note has been logged for the SkillAlign academic
+              project review.
+            </p>
+            <button
+              id="contact-reset-btn"
+              type="button"
+              class="mt-2 inline-flex items-center px-4 py-2 rounded-lg border border-[#DCD5F2] bg-white text-xs font-semibold text-[#19134F] hover:bg-[#F3F0FF] cursor-pointer"
+            >
+              Send Another Message
+            </button>
+          </div>
+
+          <form id="contact-form" class="space-y-4" novalidate>
+            <div
+              id="contact-error"
+              role="alert"
+              class="hidden rounded-xl bg-[#FEF2F2] border border-[#FECACA] px-4 py-3 text-sm text-[#B91C1C]"
+            ></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="contact-name" class="block text-xs font-semibold text-[#17152F] mb-1.5">
+                  Your Name
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  placeholder="Alex Morgan"
+                  class="w-full rounded-xl border border-[#E9E5F2] bg-white px-4 py-2.5 text-sm text-[#17152F] placeholder:text-[#9F9CB2] focus:outline-none focus:border-[#5421D6]"
+                />
+              </div>
+              <div>
+                <label for="contact-email" class="block text-xs font-semibold text-[#17152F] mb-1.5">
+                  Email Address
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  placeholder="alex@university.ac.uk"
+                  class="w-full rounded-xl border border-[#E9E5F2] bg-white px-4 py-2.5 text-sm text-[#17152F] placeholder:text-[#9F9CB2] focus:outline-none focus:border-[#5421D6]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block text-xs font-semibold text-[#17152F] mb-1.5">
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                rows="4"
+                placeholder="Share your questions or feedback about SkillAlign..."
+                class="w-full rounded-xl border border-[#E9E5F2] bg-white px-4 py-3 text-sm text-[#17152F] placeholder:text-[#9F9CB2] focus:outline-none focus:border-[#5421D6]"
+              ></textarea>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-xs text-[#77758C]">CN6000 Academic Project Inquiry</span>
+              <button
+                type="submit"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-sm font-semibold shadow-sm hover:brightness-105 transition-all cursor-pointer"
+              >
+                <span>Send Message</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Quiet Footer -->
+  <footer class="bg-[#19134F] text-white/80 py-8 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+      <div class="flex items-center gap-2.5">
+        <span class="font-display font-bold text-white">SkillAlign</span>
+        <span aria-hidden="true" class="text-white/30">·</span>
+        <span>CN6000 Resume-to-Job Matching System</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#about" class="hover:text-white transition-colors">About</a>
+        <a href="/download-project" class="hover:text-white transition-colors">Download ZIP</a>
+        <a href="/dashboard?section=scanner" class="text-[#C4B5FD] hover:text-white font-medium transition-colors">
+          Open Scanner
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+{% endblock %}

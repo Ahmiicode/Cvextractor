@@ -1,0 +1,6 @@
+{
+  "name": "SkillAlign",
+  "description": "AI-Powered Resume to Job Matching System (CN6000) with PDF/DOCX document parsing, NLP skill extraction, and TF-IDF similarity scoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

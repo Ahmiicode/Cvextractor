@@ -1,0 +1,83 @@
+:root {
+  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --brand-primary: #5421D6;
+  --brand-navy: #19134F;
+  --brand-secondary: #7652EA;
+  --brand-lavender: #F3F0FF;
+  --brand-bg: #F7F6FC;
+  --brand-text: #17152F;
+  --brand-muted: #77758C;
+  --brand-success: #16A66A;
+  --brand-border: #E9E5F2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--brand-bg);
+  color: var(--brand-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.score-ring-arc {
+  transition: stroke-dashoffset 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-collapsed {
+  width: 76px !important;
+}
+
+.sidebar-collapsed .sidebar-label,
+.sidebar-collapsed .sidebar-brand-text,
+.sidebar-collapsed .sidebar-badge {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-brand-row {
+  justify-content: center;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.sidebar-collapsed .sidebar-nav-btn {
+  justify-content: center;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-smooth {
+  animation: spinSlow 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

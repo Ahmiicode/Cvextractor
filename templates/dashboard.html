@@ -1,0 +1,845 @@
+{% extends "base.html" %}
+
+{% block title %}SkillAlign — Resume-to-Job Matching Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F7F6FC] text-[#17152F] flex" data-initial-section="{{ initial_section }}">
+  <!-- Desktop & Tablet Collapsible Sidebar -->
+  <aside
+    id="desktop-sidebar"
+    class="hidden md:block shrink-0 w-[256px] transition-[width] duration-200 ease-out sticky top-0 h-screen z-30 bg-[#19134F] text-white select-none"
+  >
+    <div class="flex flex-col h-full">
+      <!-- Brand Header -->
+      <div class="sidebar-brand-row flex items-center justify-between px-5 h-18 border-b border-white/10 shrink-0">
+        <a href="/" title="Return to Landing Page" class="flex items-center gap-2.5 rounded-lg">
+          <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5421D6] to-[#7652EA] flex items-center justify-center shadow-sm shrink-0">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              <rect width="20" height="14" x="2" y="6" rx="2"></rect>
+            </svg>
+          </span>
+          <span class="sidebar-brand-text font-display text-lg font-bold tracking-tight text-white whitespace-nowrap">
+            Skill<span class="text-[#A78BFA]">Align</span>
+          </span>
+        </a>
+
+        <button
+          id="sidebar-collapse-btn"
+          type="button"
+          aria-label="Collapse sidebar"
+          class="hidden lg:flex w-7 h-7 rounded-lg bg-white/10 hover:bg-white/15 items-center justify-center text-white/75 hover:text-white transition-colors cursor-pointer"
+        >
+          <svg id="sidebar-collapse-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 px-3 py-5 space-y-1.5 overflow-y-auto" aria-label="Main navigation">
+        <button type="button" data-nav="dashboard" class="sidebar-nav-btn w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer whitespace-nowrap text-white/75 hover:text-white hover:bg-white/10">
+          <span class="flex items-center gap-3 min-w-0">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect>
+            </svg>
+            <span class="sidebar-label truncate">Dashboard</span>
+          </span>
+        </button>
+
+        <button type="button" data-nav="scanner" class="sidebar-nav-btn w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer whitespace-nowrap text-white/75 hover:text-white hover:bg-white/10">
+          <span class="flex items-center gap-3 min-w-0">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <circle cx="11.5" cy="14.5" r="2.5"></circle>
+              <path d="M13.3 16.3 15 18"></path>
+            </svg>
+            <span class="sidebar-label truncate">Resume Scanner</span>
+          </span>
+        </button>
+
+        <button type="button" data-nav="results" class="sidebar-nav-btn w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer whitespace-nowrap text-white/75 hover:text-white hover:bg-white/10">
+          <span class="flex items-center gap-3 min-w-0">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path>
+            </svg>
+            <span class="sidebar-label truncate">Analysis Results</span>
+          </span>
+          <span id="sidebar-results-ready" class="sidebar-badge hidden text-[11px] font-medium text-white/85">Ready</span>
+        </button>
+
+        <button type="button" data-nav="how-it-works" class="sidebar-nav-btn w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer whitespace-nowrap text-white/75 hover:text-white hover:bg-white/10">
+          <span class="flex items-center gap-3 min-w-0">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="8" height="8" x="3" y="3" rx="2"></rect><path d="M7 11v4a2 2 0 0 0 2 2h4"></path><rect width="8" height="8" x="13" y="13" rx="2"></rect>
+            </svg>
+            <span class="sidebar-label truncate">How It Works</span>
+          </span>
+        </button>
+
+        <button type="button" data-nav="about" class="sidebar-nav-btn w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer whitespace-nowrap text-white/75 hover:text-white hover:bg-white/10">
+          <span class="flex items-center gap-3 min-w-0">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path>
+            </svg>
+            <span class="sidebar-label truncate">About</span>
+          </span>
+        </button>
+      </nav>
+
+      <!-- Back to Home -->
+      <div class="p-3 border-t border-white/10 shrink-0">
+        <a
+          href="/"
+          class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-colors whitespace-nowrap"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path>
+          </svg>
+          <span class="sidebar-label">Back to Home</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div id="mobile-sidebar-drawer" class="fixed inset-0 z-50 md:hidden hidden">
+    <div id="mobile-sidebar-backdrop" class="fixed inset-0 bg-[#19134F]/50 backdrop-blur-xs"></div>
+    <aside class="relative w-[270px] max-w-[82vw] h-full bg-[#19134F] text-white shadow-2xl z-10 flex flex-col">
+      <div class="flex items-center justify-between px-5 h-18 border-b border-white/10">
+        <a href="/" class="flex items-center gap-2.5">
+          <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5421D6] to-[#7652EA] flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect>
+            </svg>
+          </span>
+          <span class="font-display text-lg font-bold tracking-tight text-white">
+            Skill<span class="text-[#A78BFA]">Align</span>
+          </span>
+        </a>
+        <button id="mobile-sidebar-close" type="button" aria-label="Close sidebar" class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-3 py-5 space-y-1.5 overflow-y-auto" aria-label="Mobile navigation">
+        <button type="button" data-nav="dashboard" class="mobile-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium text-white/75 hover:text-white hover:bg-white/10 cursor-pointer">Dashboard</button>
+        <button type="button" data-nav="scanner" class="mobile-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium text-white/75 hover:text-white hover:bg-white/10 cursor-pointer">Resume Scanner</button>
+        <button type="button" data-nav="results" class="mobile-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium text-white/75 hover:text-white hover:bg-white/10 cursor-pointer">Analysis Results</button>
+        <button type="button" data-nav="how-it-works" class="mobile-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium text-white/75 hover:text-white hover:bg-white/10 cursor-pointer">How It Works</button>
+        <button type="button" data-nav="about" class="mobile-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium text-white/75 hover:text-white hover:bg-white/10 cursor-pointer">About</button>
+      </nav>
+      <div class="p-3 border-t border-white/10">
+        <a href="/" class="block w-full px-3.5 py-2.5 rounded-xl text-sm font-medium text-white/75 hover:text-white hover:bg-white/10">Back to Home</a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Main Viewport -->
+  <div class="flex-1 min-w-0 flex flex-col">
+    <!-- Top Header -->
+    <header class="sticky top-0 z-20 bg-[#F7F6FC]/90 backdrop-blur-md border-b border-[#E9E5F2]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+          <button
+            id="mobile-sidebar-open"
+            type="button"
+            aria-label="Open navigation menu"
+            class="md:hidden w-11 h-11 rounded-xl bg-white border border-[#E9E5F2] flex items-center justify-center text-[#19134F] shrink-0 cursor-pointer"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="min-w-0">
+            <h1 id="header-page-title" class="font-display text-xl sm:text-2xl font-bold tracking-tight text-[#17152F] truncate">
+              Dashboard
+            </h1>
+            <p id="header-page-subtitle" class="text-xs sm:text-sm text-[#77758C] truncate">
+              Welcome to the SkillAlign Resume-to-Job Matching Workspace
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <span aria-hidden="true" class="hidden sm:inline-flex w-9 h-9 rounded-xl bg-white border border-[#E9E5F2] items-center justify-center text-[#5421D6]">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+            </svg>
+          </span>
+
+          <button
+            id="header-scan-btn"
+            type="button"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-xs sm:text-sm font-semibold shadow-[0_6px_16px_rgba(84,33,214,0.22)] hover:brightness-105 transition-all whitespace-nowrap shrink-0 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <circle cx="11.5" cy="14.5" r="2.5"></circle>
+              <path d="M13.3 16.3 15 18"></path>
+            </svg>
+            <span>Scan Resume</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <!-- SECTION 1: DASHBOARD OVERVIEW -->
+      <section id="section-dashboard" class="space-y-6">
+        <!-- Three Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Card 1: Resume Uploaded -->
+          <div class="rounded-2xl bg-gradient-to-br from-[#5421D6] to-[#7652EA] text-white p-6 shadow-[0_12px_28px_rgba(84,33,214,0.22)] flex flex-col justify-between min-h-[148px]">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-sm font-medium text-white/85">Resume Uploaded</span>
+              <span class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                </svg>
+              </span>
+            </div>
+            <div class="mt-4">
+              <p id="card-resume-title" class="font-display text-xl font-bold truncate">No resume uploaded</p>
+              <p id="card-resume-sub" class="mt-1 text-xs text-white/80">
+                Upload a PDF or DOCX document in Resume Scanner
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Skills Identified -->
+          <div class="rounded-2xl bg-[#E8F8F1] border border-[#C6EEDB] p-6 flex flex-col justify-between min-h-[148px]">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-[#14532D]">Skills Identified</span>
+              <span class="w-10 h-10 rounded-xl bg-[#16A66A] text-white flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect width="16" height="16" x="4" y="4" rx="2"></rect><rect width="6" height="6" x="9" y="9" rx="1"></rect>
+                </svg>
+              </span>
+            </div>
+            <div class="mt-4">
+              <p id="card-skills-count" class="font-display text-3xl font-extrabold text-[#17152F] tabular-nums">0</p>
+              <p id="card-skills-sub" class="mt-1 text-xs font-medium text-[#15803D]/80">
+                Pending skill extraction scan
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Current Match Score -->
+          <div class="rounded-2xl bg-[#EEF2FF] border border-[#D9E1FC] p-6 flex flex-col justify-between min-h-[148px]">
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-[#1E295E]">Current Match Score</span>
+              <span class="w-10 h-10 rounded-xl bg-[#5421D6] text-white flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                </svg>
+              </span>
+            </div>
+            <div class="mt-4">
+              <p id="card-score-value" class="font-display text-3xl font-extrabold text-[#17152F] tabular-nums">—</p>
+              <p id="card-score-sub" class="mt-1 text-xs font-medium text-[#4338CA]/80">
+                Run an analysis to compute match score
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State Panel (Before Analysis) -->
+        <div id="dashboard-empty-state" class="rounded-2xl bg-white border border-[#E9E5F2] p-8 sm:p-10">
+          <div class="max-w-2xl mx-auto text-center space-y-5">
+            <div class="w-14 h-14 rounded-2xl bg-[#F3F0FF] text-[#5421D6] flex items-center justify-center mx-auto">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><circle cx="11.5" cy="14.5" r="2.5"></circle><path d="M13.3 16.3 15 18"></path>
+              </svg>
+            </div>
+            <div class="space-y-2">
+              <h2 class="font-display text-2xl font-bold text-[#17152F]">No Resume Analysis Run Yet</h2>
+              <p class="text-sm sm:text-base text-[#77758C] leading-relaxed">
+                Upload a PDF or DOCX resume and paste a target job description in the Resume Scanner
+                to generate your real match score, skill coverage breakdown, and gap recommendations.
+              </p>
+            </div>
+            <div class="pt-2">
+              <button
+                type="button"
+                data-go-scanner
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-sm font-semibold shadow-[0_10px_24px_rgba(84,33,214,0.22)] hover:brightness-105 transition-all cursor-pointer"
+              >
+                <span>Open Resume Scanner</span>
+              </button>
+            </div>
+
+            <div class="pt-6 border-t border-[#E9E5F2] grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+              <div class="rounded-xl bg-[#F7F6FC] p-4">
+                <p class="text-xs font-semibold text-[#5421D6]">Step 1</p>
+                <p class="mt-1 text-xs font-medium text-[#17152F]">Upload PDF or DOCX</p>
+                <p class="mt-0.5 text-xs text-[#77758C]">Parsed via PyMuPDF & python-docx</p>
+              </div>
+              <div class="rounded-xl bg-[#F7F6FC] p-4">
+                <p class="text-xs font-semibold text-[#5421D6]">Step 2</p>
+                <p class="mt-1 text-xs font-medium text-[#17152F]">Paste Job Description</p>
+                <p class="mt-0.5 text-xs text-[#77758C]">Target role requirements</p>
+              </div>
+              <div class="rounded-xl bg-[#F7F6FC] p-4">
+                <p class="text-xs font-semibold text-[#5421D6]">Step 3</p>
+                <p class="mt-1 text-xs font-medium text-[#17152F]">Inspect Match Results</p>
+                <p class="mt-0.5 text-xs text-[#77758C]">spaCy & TF-IDF match score</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Populated Overview Panel (After Analysis) -->
+        <div id="dashboard-populated-state" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div class="lg:col-span-6 rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="font-display text-lg font-bold text-[#17152F]">Your Matching Score</h2>
+                <span id="overview-timestamp" class="text-xs font-medium text-[#77758C] tabular-nums"></span>
+              </div>
+
+              <div class="mt-6 flex flex-col sm:flex-row items-center gap-6">
+                <div id="overview-ring-container" class="shrink-0"></div>
+                <div class="space-y-3 text-center sm:text-left">
+                  <div id="overview-interpretation-heading" class="inline-flex items-center gap-2 text-sm font-bold text-[#17152F]"></div>
+                  <p id="overview-interpretation-desc" class="text-sm text-[#77758C] leading-relaxed"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-[#E9E5F2] flex flex-wrap items-center justify-between gap-3">
+              <button
+                type="button"
+                id="overview-view-results-btn"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-sm font-semibold shadow-sm hover:brightness-105 transition-all cursor-pointer"
+              >
+                <span>View Full Analysis</span>
+              </button>
+              <button
+                type="button"
+                data-go-scanner
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E9E5F2] bg-[#F7F6FC] text-sm font-semibold text-[#19134F] hover:bg-[#F3F0FF] transition-colors cursor-pointer"
+              >
+                <span>Run New Scan</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+            <div class="space-y-5">
+              <div class="flex items-center justify-between">
+                <h2 class="font-display text-lg font-bold text-[#17152F]">Skill Alignment Snapshot</h2>
+                <span id="overview-coverage-text" class="text-xs font-semibold text-[#5421D6] tabular-nums"></span>
+              </div>
+
+              <div>
+                <p id="overview-matched-label" class="text-xs font-semibold text-[#16A66A] mb-2">Matched Skills</p>
+                <div id="overview-matched-list" class="flex flex-wrap gap-2"></div>
+              </div>
+
+              <div>
+                <p id="overview-missing-label" class="text-xs font-semibold text-[#EA580C] mb-2">Missing Target Skills</p>
+                <div id="overview-missing-list" class="flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-[#E9E5F2] flex items-center justify-between text-xs text-[#77758C]">
+              <span>TF-IDF Cosine Similarity</span>
+              <span id="overview-cosine-text" class="font-mono font-semibold text-[#17152F] tabular-nums"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: RESUME SCANNER -->
+      <section id="section-scanner" class="hidden space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p class="text-sm text-[#77758C]">
+            Supported formats: <span class="font-semibold text-[#17152F]">PDF (.pdf)</span> and
+            <span class="font-semibold text-[#17152F]">Word (.docx)</span> · Max 5MB
+          </p>
+
+          <button
+            id="load-sample-btn"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F3F0FF] text-[#5421D6] text-xs font-semibold hover:bg-[#E7E0FE] transition-colors cursor-pointer"
+          >
+            <span>Load Sample CV & Job Description</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+          <!-- Left Card: Upload Your Resume -->
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between shadow-[0_8px_24px_rgba(25,19,79,0.03)]">
+            <div>
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="font-display text-lg font-bold text-[#17152F]">Upload Your Resume</h2>
+                  <p class="mt-0.5 text-xs sm:text-sm text-[#77758C]">
+                    Drag and drop your CV file or browse from your computer
+                  </p>
+                </div>
+                <button
+                  id="remove-file-btn"
+                  type="button"
+                  class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#77758C] hover:text-[#DC2626] hover:bg-[#FEF2F2] transition-colors cursor-pointer"
+                >
+                  <span>Remove</span>
+                </button>
+              </div>
+
+              <input
+                id="resume-file-input"
+                type="file"
+                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                class="hidden"
+              />
+
+              <div
+                id="resume-dropzone"
+                role="button"
+                tabindex="0"
+                aria-label="Upload resume dropzone"
+                class="mt-5 rounded-2xl border-2 border-dashed border-[#D5CEF0] bg-[#F7F6FC] hover:border-[#7652EA] hover:bg-[#F3F0FF]/60 p-7 sm:p-8 text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[245px]"
+              >
+                <div id="dropzone-empty" class="space-y-3">
+                  <div class="w-13 h-13 rounded-2xl bg-[#F3F0FF] text-[#5421D6] flex items-center justify-center mx-auto">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="17 8 12 3 7 8"></polyline>
+                      <line x1="12" x2="12" y1="3" y2="15"></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-display text-base font-bold text-[#17152F]">
+                      Drop your PDF or DOCX resume here
+                    </p>
+                    <p class="mt-1 text-xs text-[#77758C]">
+                      Maximum file size: 5MB · Text-based PDF or Word document
+                    </p>
+                  </div>
+                  <button
+                    id="browse-files-btn"
+                    type="button"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-[#DCD5F2] text-xs font-semibold text-[#19134F] hover:bg-[#F3F0FF] transition-colors cursor-pointer"
+                  >
+                    <span>Browse Files</span>
+                  </button>
+                </div>
+
+                <div id="dropzone-selected" class="hidden space-y-3 max-w-full">
+                  <div class="w-13 h-13 rounded-2xl bg-[#16A66A] text-white flex items-center justify-center mx-auto shadow-sm">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                      <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                      <path d="m9 15 2 2 4-4"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs font-semibold text-[#16A66A]">File Selected</p>
+                    <p id="selected-filename" class="mt-1 font-display text-base font-bold text-[#17152F] break-all px-2"></p>
+                    <p id="selected-filesize" class="mt-1 text-xs text-[#77758C] tabular-nums"></p>
+                  </div>
+                  <button
+                    id="replace-file-btn"
+                    type="button"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-[#C6EEDB] text-xs font-semibold text-[#14532D] hover:bg-[#E8F8F1] transition-colors cursor-pointer"
+                  >
+                    <span>Replace File</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-[#E9E5F2] flex items-center justify-between gap-3 text-xs">
+              <span class="text-[#77758C] font-medium">Upload Status</span>
+              <span id="upload-status-text" class="text-[#77758C]">Waiting for document</span>
+            </div>
+          </div>
+
+          <!-- Right Card: Job Description -->
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between shadow-[0_8px_24px_rgba(25,19,79,0.03)]">
+            <div class="flex-1 flex flex-col">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="font-display text-lg font-bold text-[#17152F]">Job Description</h2>
+                  <p class="mt-0.5 text-xs sm:text-sm text-[#77758C]">
+                    Paste the full role requirements, responsibilities, and skills
+                  </p>
+                </div>
+                <button
+                  id="clear-jd-btn"
+                  type="button"
+                  disabled
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#77758C] hover:text-[#17152F] hover:bg-[#F7F6FC] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                >
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <div class="mt-5 flex-1 flex flex-col">
+                <label for="job-description-input" class="sr-only">Job Description</label>
+                <textarea
+                  id="job-description-input"
+                  placeholder="Paste the job description here (minimum 30 characters)...&#10;&#10;Example: Seeking a Python & Flask engineer with experience in spaCy, scikit-learn, PyMuPDF, PostgreSQL, and Docker..."
+                  class="w-full flex-1 min-h-[245px] rounded-2xl border border-[#E9E5F2] bg-[#F7F6FC] p-4 text-sm text-[#17152F] placeholder:text-[#9895AD] leading-relaxed focus:outline-none focus:bg-white focus:border-[#5421D6] transition-colors resize-y"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-[#E9E5F2] flex items-center justify-between gap-3 text-xs text-[#77758C]">
+              <span>Minimum 30 characters required</span>
+              <span id="jd-counter-text" class="font-mono tabular-nums font-medium text-[#17152F]">0 chars · 0 words</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validation Error Banner -->
+        <div
+          id="scanner-validation-error"
+          role="alert"
+          class="hidden rounded-xl bg-[#FEF2F2] border border-[#FECACA] px-4 py-3.5 text-sm text-[#B91C1C]"
+        ></div>
+
+        <!-- Primary Action Button -->
+        <div class="flex flex-col items-center justify-center pt-1 space-y-3">
+          <button
+            id="analyze-resume-btn"
+            type="button"
+            class="w-full sm:w-auto min-w-[280px] inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white font-display font-bold text-base shadow-[0_14px_30px_rgba(84,33,214,0.28)] hover:brightness-105 disabled:opacity-80 disabled:cursor-wait transition-all cursor-pointer"
+          >
+            <svg id="analyze-btn-spinner" class="hidden w-5 h-5 animate-spin-smooth" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+            </svg>
+            <span id="analyze-btn-label">Analyze Resume</span>
+          </button>
+
+          <p id="analyze-loading-note" class="hidden text-xs text-[#77758C]">
+            Extracting PDF/DOCX text, running spaCy skill matching, and calculating scikit-learn TF-IDF similarity…
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 3: ANALYSIS RESULTS -->
+      <section id="section-results" class="hidden space-y-6">
+        <!-- Empty State -->
+        <div id="results-empty-state" class="rounded-2xl bg-white border border-[#E9E5F2] p-8 sm:p-12 text-center">
+          <div class="max-w-md mx-auto space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-[#F3F0FF] text-[#5421D6] flex items-center justify-center mx-auto">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path>
+              </svg>
+            </div>
+            <h2 class="font-display text-2xl font-bold text-[#17152F]">No Analysis Results Yet</h2>
+            <p class="text-sm text-[#77758C] leading-relaxed">
+              Run a scan in the Resume Scanner to view your circular matching score, matched and
+              missing skills, and TF-IDF similarity breakdown.
+            </p>
+            <button
+              type="button"
+              data-go-scanner
+              class="mt-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-sm font-semibold shadow-sm hover:brightness-105 transition-all cursor-pointer"
+            >
+              <span>Go to Resume Scanner</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Populated Results -->
+        <div id="results-populated-state" class="hidden space-y-6">
+          <!-- Top Matching Score Card -->
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-8 shadow-[0_10px_30px_rgba(25,19,79,0.04)]">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+              <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                <div id="results-ring-container" class="shrink-0"></div>
+
+                <div class="space-y-3 text-center sm:text-left max-w-xl">
+                  <div id="results-meta-line" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs text-[#77758C]"></div>
+                  <div id="results-interpretation-heading" class="flex items-center justify-center sm:justify-start gap-2.5"></div>
+                  <p id="results-interpretation-desc" class="text-sm text-[#5B5872] leading-relaxed"></p>
+
+                  <div class="pt-1 flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                    <button
+                      type="button"
+                      data-go-scanner
+                      class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-xs sm:text-sm font-semibold shadow-sm hover:brightness-105 transition-all cursor-pointer"
+                    >
+                      <span>Analyze Another Resume</span>
+                    </button>
+                    <button
+                      id="export-report-btn"
+                      type="button"
+                      class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E9E5F2] bg-[#F7F6FC] text-xs sm:text-sm font-semibold text-[#19134F] hover:bg-[#F3F0FF] transition-colors cursor-pointer"
+                    >
+                      <span>Export Report</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Coverage Stats -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 lg:min-w-[290px]">
+                <div class="rounded-xl bg-[#F3F0FF] border border-[#E2DAFC] p-4">
+                  <p class="text-xs font-medium text-[#5B5872]">Skill Coverage</p>
+                  <p id="stat-skill-coverage" class="mt-1 font-display text-2xl font-extrabold text-[#5421D6] tabular-nums">0%</p>
+                </div>
+                <div class="rounded-xl bg-[#E8F8F1] border border-[#C6EEDB] p-4">
+                  <p class="text-xs font-medium text-[#14532D]">Matched Skills</p>
+                  <p id="stat-matched-ratio" class="mt-1 font-display text-2xl font-extrabold text-[#16A66A] tabular-nums">0/0</p>
+                </div>
+                <div class="rounded-xl bg-[#FFF4E8] border border-[#FDE2C4] p-4">
+                  <p class="text-xs font-medium text-[#9A3412]">Missing Skills</p>
+                  <p id="stat-missing-count" class="mt-1 font-display text-2xl font-extrabold text-[#EA580C] tabular-nums">0</p>
+                </div>
+                <div class="rounded-xl bg-[#F7F6FC] border border-[#E9E5F2] p-4">
+                  <p class="text-xs font-medium text-[#5B5872]">TF-IDF Similarity</p>
+                  <p id="stat-cosine-pct" class="mt-1 font-display text-2xl font-extrabold text-[#17152F] tabular-nums">0%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2x2 Results Breakdown Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            <!-- Matched Skills Card -->
+            <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <h3 class="font-display text-lg font-bold text-[#17152F]">Matched Skills</h3>
+                    <p class="text-xs text-[#77758C]">Required job skills confirmed in your resume</p>
+                  </div>
+                  <span id="results-matched-badge" class="font-mono text-sm font-bold text-[#16A66A] tabular-nums">0 found</span>
+                </div>
+                <div id="results-matched-container" class="mt-5"></div>
+              </div>
+              <div id="results-bonus-container" class="hidden mt-6 pt-4 border-t border-[#E9E5F2]"></div>
+            </div>
+
+            <!-- Missing Skills Card -->
+            <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <h3 class="font-display text-lg font-bold text-[#17152F]">Missing Skills</h3>
+                    <p class="text-xs text-[#77758C]">Target job competencies not yet detected in your CV</p>
+                  </div>
+                  <span id="results-missing-badge" class="font-mono text-sm font-bold text-[#EA580C] tabular-nums">0 gaps</span>
+                </div>
+                <div id="results-missing-container" class="mt-5"></div>
+              </div>
+              <div class="mt-6 pt-4 border-t border-[#E9E5F2] text-xs text-[#77758C]">
+                Tip: Only include missing skills where you have genuine academic, project, or professional experience.
+              </div>
+            </div>
+
+            <!-- Text Similarity Card -->
+            <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+              <div>
+                <h3 class="font-display text-lg font-bold text-[#17152F]">Text Similarity</h3>
+                <p class="text-xs text-[#77758C]">scikit-learn TF-IDF cosine similarity and keyword overlap metrics</p>
+
+                <div class="mt-6 space-y-5">
+                  <div>
+                    <div class="flex items-center justify-between text-sm font-semibold mb-2">
+                      <span class="text-[#17152F]">TF-IDF Cosine Similarity</span>
+                      <span id="sim-cosine-label" class="font-mono text-[#5421D6] tabular-nums">0%</span>
+                    </div>
+                    <div class="h-3 rounded-full bg-[#F3F0FF] overflow-hidden">
+                      <div id="sim-cosine-bar" class="h-full rounded-full bg-gradient-to-r from-[#5421D6] via-[#7652EA] to-[#06B6D4]" style="width: 0%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between text-sm font-semibold mb-2">
+                      <span class="text-[#17152F]">Job Keyword Overlap</span>
+                      <span id="sim-overlap-label" class="font-mono text-[#16A66A] tabular-nums">0%</span>
+                    </div>
+                    <div class="h-3 rounded-full bg-[#E8F8F1] overflow-hidden">
+                      <div id="sim-overlap-bar" class="h-full rounded-full bg-[#16A66A]" style="width: 0%"></div>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-3 gap-3 pt-2">
+                    <div class="rounded-xl bg-[#F7F6FC] p-3.5">
+                      <p class="text-[11px] text-[#77758C]">Resume Words</p>
+                      <p id="stat-resume-words" class="mt-1 font-mono text-base font-bold text-[#17152F] tabular-nums">0</p>
+                    </div>
+                    <div class="rounded-xl bg-[#F7F6FC] p-3.5">
+                      <p class="text-[11px] text-[#77758C]">JD Words</p>
+                      <p id="stat-jd-words" class="mt-1 font-mono text-base font-bold text-[#17152F] tabular-nums">0</p>
+                    </div>
+                    <div class="rounded-xl bg-[#F7F6FC] p-3.5">
+                      <p class="text-[11px] text-[#77758C]">Shared Terms</p>
+                      <p id="stat-shared-terms" class="mt-1 font-mono text-base font-bold text-[#5421D6] tabular-nums">0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Summary Card -->
+            <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+              <div class="space-y-4">
+                <div>
+                  <h3 class="font-display text-lg font-bold text-[#17152F]">Analysis Summary</h3>
+                  <p class="text-xs text-[#77758C]">Key findings and prioritized improvement actions</p>
+                </div>
+
+                <p id="summary-overview" class="text-sm text-[#17152F] leading-relaxed bg-[#F7F6FC] rounded-xl p-4 border border-[#E9E5F2]"></p>
+
+                <div class="space-y-2">
+                  <p class="text-xs font-bold text-[#16A66A] uppercase tracking-wider">Strengths Observed</p>
+                  <ul id="summary-strengths" class="space-y-2 text-sm text-[#5B5872]"></ul>
+                </div>
+
+                <div class="space-y-2 pt-1">
+                  <p class="text-xs font-bold text-[#5421D6] uppercase tracking-wider">Recommendations</p>
+                  <ul id="summary-recommendations" class="space-y-2 text-sm text-[#5B5872]"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: HOW IT WORKS -->
+      <section id="section-how-it-works" class="hidden space-y-6">
+        <div class="rounded-2xl bg-gradient-to-br from-[#19134F] via-[#271C74] to-[#5421D6] text-white p-6 sm:p-8 shadow-[0_12px_32px_rgba(25,19,79,0.16)]">
+          <div class="max-w-3xl space-y-3">
+            <p class="text-xs sm:text-sm font-semibold text-[#C4B5FD]">CN6000 Python NLP Pipeline</p>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">
+              How SkillAlign Evaluates Resume-to-Job Alignment
+            </h2>
+            <p class="text-sm sm:text-base text-white/80 leading-relaxed">
+              Every resume scan passes through four deterministic Python stages—combining PyMuPDF /
+              python-docx extraction, spaCy skill matching, and scikit-learn TF-IDF cosine similarity.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-sm font-bold text-[#7652EA]">Stage 01</span>
+              </div>
+              <h3 class="mt-3 font-display text-lg font-bold text-[#17152F]">Document Ingestion & Text Extraction</h3>
+              <p class="mt-2 text-sm text-[#5B5872] leading-relaxed">
+                Uses PyMuPDF for PDF resumes and python-docx for Word paragraphs and tables, stripping
+                binary formatting noise cleanly in memory.
+              </p>
+            </div>
+            <p class="mt-5 pt-4 border-t border-[#E9E5F2] text-xs font-medium text-[#16A66A]">Supports .pdf and .docx up to 5MB</p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-sm font-bold text-[#7652EA]">Stage 02</span>
+              </div>
+              <h3 class="mt-3 font-display text-lg font-bold text-[#17152F]">spaCy Tokenization & Lemmatization</h3>
+              <p class="mt-2 text-sm text-[#5B5872] leading-relaxed">
+                Processes text with spaCy (en_core_web_sm), normalizing word forms, filtering stop words,
+                and preserving multi-symbol technical identifiers like C++, C#, and CI/CD.
+              </p>
+            </div>
+            <p class="mt-5 pt-4 border-t border-[#E9E5F2] text-xs font-medium text-[#16A66A]">spaCy linguistic preprocessing</p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-sm font-bold text-[#7652EA]">Stage 03</span>
+              </div>
+              <h3 class="mt-3 font-display text-lg font-bold text-[#17152F]">spaCy PhraseMatcher Skill Extraction</h3>
+              <p class="mt-2 text-sm text-[#5B5872] leading-relaxed">
+                Resolves skill aliases (e.g., ReactJS → React, sklearn → scikit-learn, Postgres →
+                PostgreSQL) across both documents to compute Matched and Missing Skills.
+              </p>
+            </div>
+            <p class="mt-5 pt-4 border-t border-[#E9E5F2] text-xs font-medium text-[#16A66A]">Canonical competency matching</p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-sm font-bold text-[#7652EA]">Stage 04</span>
+              </div>
+              <h3 class="mt-3 font-display text-lg font-bold text-[#17152F]">scikit-learn TF-IDF & Cosine Similarity</h3>
+              <p class="mt-2 text-sm text-[#5B5872] leading-relaxed">
+                Builds sublinear unigram/bigram TF-IDF vectors with scikit-learn and blends 65% skill
+                coverage with 35% cosine similarity into an interpretable 0–100% score.
+              </p>
+            </div>
+            <p class="mt-5 pt-4 border-t border-[#E9E5F2] text-xs font-medium text-[#16A66A]">Deterministic scikit-learn scoring</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: ABOUT -->
+      <section id="section-about" class="hidden space-y-6">
+        <div class="rounded-2xl bg-white border border-[#E9E5F2] p-6 sm:p-8 space-y-6">
+          <div class="space-y-2">
+            <h2 class="font-display text-2xl font-extrabold text-[#17152F]">
+              SkillAlign — CN6000 Resume-to-Job Matching System
+            </h2>
+            <p class="text-sm sm:text-base text-[#5B5872] leading-relaxed max-w-3xl">
+              SkillAlign is built with Python 3, Flask, spaCy, scikit-learn, PyMuPDF, and python-docx.
+              It evaluates candidate resumes directly against target job descriptions without user
+              accounts, external databases, or unrelated job-search clutter.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="rounded-xl bg-[#F7F6FC] border border-[#E9E5F2] p-5 space-y-2">
+              <h3 class="font-display text-base font-bold text-[#17152F]">Real Document Parsing</h3>
+              <p class="text-xs sm:text-sm text-[#77758C] leading-relaxed">
+                PyMuPDF and python-docx extract clean text from PDF and Word resumes up to 5MB.
+              </p>
+            </div>
+            <div class="rounded-xl bg-[#F7F6FC] border border-[#E9E5F2] p-5 space-y-2">
+              <h3 class="font-display text-base font-bold text-[#17152F]">Focused Academic Scope</h3>
+              <p class="text-xs sm:text-sm text-[#77758C] leading-relaxed">
+                Dedicated strictly to resume scanning, skill matching, and actionable gap insights.
+              </p>
+            </div>
+            <div class="rounded-xl bg-[#F7F6FC] border border-[#E9E5F2] p-5 space-y-2">
+              <h3 class="font-display text-base font-bold text-[#17152F]">Downloadable Project ZIP</h3>
+              <p class="text-xs sm:text-sm text-[#77758C] leading-relaxed">
+                Download the complete Python Flask project archive with tests and Render configuration.
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-[#E9E5F2] flex flex-wrap items-center justify-between gap-4">
+            <div class="text-xs sm:text-sm text-[#5B5872]">
+              <strong class="text-[#17152F]">Score Guide:</strong>
+              80–100% Excellent Match · 65–79% Strong Match · 45–64% Moderate Match · 0–44% Low Match
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+            
+              <button
+                type="button"
+                data-go-scanner
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#5421D6] to-[#7652EA] text-white text-xs sm:text-sm font-semibold shadow-sm hover:brightness-105 transition-all cursor-pointer"
+              >
+                <span>Start a New Scan</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
