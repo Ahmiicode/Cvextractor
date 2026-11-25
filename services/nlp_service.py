@@ -104,6 +104,57 @@ SKILL_TAXONOMY: List[Tuple[str, List[str]]] = [
     ("Team Collaboration", ["collaboration", "cross-functional", "teamwork", "stakeholder management"]),
     ("Project Management", ["project management", "product management", "roadmap"]),
     ("Cybersecurity", ["cybersecurity", "owasp", "oauth", "jwt", "authentication"]),
+        # Carpentry, Construction & Woodworking
+    ("Woodworking", ["woodworking", "wood work"]),
+    ("Carpentry", ["carpentry", "carpenter"]),
+    ("Furniture Installation", ["furniture installation", "furniture assembly"]),
+    ("Cabinet Making", ["cabinet making", "cabinet installation"]),
+    ("Blueprint Reading", ["blueprint reading", "reading blueprints"]),
+    ("Technical Drawing Interpretation", ["technical drawings", "construction drawings"]),
+    ("Measuring & Cutting", ["measuring and cutting", "measurement and cutting"]),
+    ("Power Tools", ["power tools", "electric tools"]),
+    ("Hand Tools", ["hand tools", "manual tools"]),
+    ("Wood Finishing", ["wood finishing", "wood polishing"]),
+    ("Door & Window Installation", ["door installation", "window installation"]),
+    ("Flooring Installation", ["floor installation", "flooring installation"]),
+    ("Construction Safety", ["construction safety", "workplace safety"]),
+    ("Material Selection", ["material selection", "building materials"]),
+    ("Repair & Maintenance", ["repair and maintenance", "maintenance and repair"]),
+
+    # Marketing & Sales
+    ("Digital Marketing", ["digital marketing", "online marketing"]),
+    ("Social Media Marketing", ["social media marketing", "social media management"]),
+    ("SEO", ["search engine optimization", "seo"]),
+    ("Content Creation", ["content creation", "content development"]),
+    ("Market Research", ["market research", "consumer research"]),
+    ("Lead Generation", ["lead generation", "generating leads"]),
+    ("Sales", ["sales", "sales management"]),
+    ("Customer Relationship Management", ["customer relationship management", "crm"]),
+    ("Negotiation", ["negotiation", "negotiation skills"]),
+
+    # HR & Administration
+    ("Recruitment", ["recruitment", "talent acquisition"]),
+    ("Employee Relations", ["employee relations", "staff relations"]),
+    ("Human Resource Management", ["human resource management", "human resources", "hr management"]),
+    ("Payroll Management", ["payroll management", "payroll processing"]),
+    ("Administrative Support", ["administrative support", "office administration"]),
+    ("Record Keeping", ["record keeping", "document management"]),
+
+    # Healthcare
+    ("Patient Care", ["patient care", "patient assistance"]),
+    ("First Aid", ["first aid", "basic first aid"]),
+    ("Medical Records Management", ["medical records", "patient records"]),
+    ("Medication Administration", ["medication administration", "administering medication"]),
+    ("Vital Signs Monitoring", ["vital signs", "blood pressure monitoring"]),
+
+    # Accounting & Finance
+    ("Bookkeeping", ["bookkeeping", "book keeping"]),
+    ("Financial Reporting", ["financial reporting", "financial reports"]),
+    ("Financial Analysis", ["financial analysis", "financial planning"]),
+    ("Accounts Payable", ["accounts payable"]),
+    ("Accounts Receivable", ["accounts receivable"]),
+    ("Budget Management", ["budget management", "budgeting"]),
+    ("Microsoft Excel", ["microsoft excel", "ms excel", "excel"]),
 ]
 
 EXTRA_STOP_WORDS = {

@@ -16,7 +16,7 @@ Data & NLP: Natural Language Processing, TF-IDF, Machine Learning, Data Analysis
 Tools & Infrastructure: Git, Docker, PostgreSQL, Linux, Agile / Scrum
 
 EXPERIENCE & ACADEMIC PROJECTS
-CN6000 Resume-to-Job Matching System (Final Year Project)
+ Resume-to-Job Matching System (Final Year Project)
 - Built a Python and Flask NLP web application to parse PDF and DOCX resumes using PyMuPDF, python-docx, spaCy tokenization, and scikit-learn TF-IDF cosine similarity.
 - Implemented automated skill extraction and gap diagnostics achieving 91% precision on benchmark academic test sets.`;
 
@@ -51,7 +51,7 @@ Required Qualifications:
     },
     'how-it-works': {
       title: 'How It Works',
-      subtitle: 'Explore the CN6000 PyMuPDF, spaCy, and scikit-learn matching pipeline',
+      subtitle: 'Explore the  PyMuPDF, spaCy, and scikit-learn matching pipeline',
     },
     about: {
       title: 'About SkillAlign',
