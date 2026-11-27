@@ -3,6 +3,41 @@
 {% block title %}SkillAlign — AI-Powered Resume to Job Matching{% endblock %}
 
 {% block content %}
+{# Social profile links: edit the URLs here, they are used in the Contact section and the footer. #}
+{% set social_links = {
+  'instagram': 'https://www.instagram.com/skillalign6947/',
+  'facebook': 'https://www.facebook.com/share/18RNkab3v5/',
+  'x': 'https://x.com/RehanSkillAlign',
+  'linkedin': 'https://www.linkedin.com/in/rehan-rehan-34a53a452'
+} %}
+
+{% macro social_icons(button_class) %}
+<a href="{{ social_links['instagram'] }}" target="_blank" rel="noopener noreferrer" aria-label="SkillAlign on Instagram" title="Instagram" class="{{ button_class }}">
+  <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+  </svg>
+</a>
+<a href="{{ social_links['facebook'] }}" target="_blank" rel="noopener noreferrer" aria-label="SkillAlign on Facebook" title="Facebook" class="{{ button_class }}">
+  <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+</a>
+<a href="{{ social_links['x'] }}" target="_blank" rel="noopener noreferrer" aria-label="SkillAlign on X" title="X" class="{{ button_class }}">
+  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+  </svg>
+</a>
+<a href="{{ social_links['linkedin'] }}" target="_blank" rel="noopener noreferrer" aria-label="SkillAlign on LinkedIn" title="LinkedIn" class="{{ button_class }}">
+  <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect width="4" height="12" x="2" y="9"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+  </svg>
+</a>
+{% endmacro %}
+
 <div class="min-h-screen bg-[#F7F6FC] text-[#17152F] flex flex-col">
   <!-- Top Navbar -->
   <header class="sticky top-0 z-40 bg-[#F7F6FC]/90 backdrop-blur-md border-b border-[#E9E5F2]">
@@ -664,6 +699,15 @@
             </div>
           </form>
         </div>
+
+        <!-- Social links -->
+        <div class="mt-8 text-center">
+          <p class="text-sm font-semibold text-[#17152F]">Or connect with us</p>
+          <p class="mt-1 text-xs sm:text-sm text-[#77758C]">Follow SkillAlign on social media.</p>
+          <div class="mt-4 flex items-center justify-center gap-3">
+            {{ social_icons('w-11 h-11 rounded-xl bg-[#F3F0FF] border border-[#E2DAFC] text-[#5421D6] flex items-center justify-center hover:bg-[#5421D6] hover:text-white hover:border-[#5421D6] transition-colors') }}
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -682,6 +726,9 @@
         <a href="/dashboard?section=scanner" class="text-[#C4B5FD] hover:text-white font-medium transition-colors">
           Open Scanner
         </a>
+      </div>
+      <div class="flex items-center gap-2.5" aria-label="Social media links">
+        {{ social_icons('w-9 h-9 rounded-xl bg-white/10 text-white/85 flex items-center justify-center hover:bg-white/20 hover:text-white transition-colors') }}
       </div>
     </div>
   </footer>

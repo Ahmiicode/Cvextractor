@@ -820,7 +820,7 @@
           <div class="pt-4 border-t border-[#E9E5F2] flex flex-wrap items-center justify-between gap-4">
             <div class="text-xs sm:text-sm text-[#5B5872]">
               <strong class="text-[#17152F]">Score Guide:</strong>
-              80–100% Excellent Match · 65–79% Strong Match · 45–64% Moderate Match · 0–44% Low Match
+              80–100% Excellent Match · 65–79% Strong Match · 45–64% Moderate Match · 15–44% Low Match · 0–14% No Significant Match
             </div>
             <div class="flex flex-wrap items-center gap-3">
             
@@ -875,7 +875,7 @@
   function toWin(input) {
     var s = String(input == null ? '' : input)
       .replace(/\s+/g, ' ')
-      .replace(/→/g, '->').replace(/…/g, '...').replace(/ /g, ' ');
+      .replace(/→/g, '->').replace(/…/g, '...').replace(/[◐◑]/g, '-').replace(/[✓✔]/g, '+').replace(/ /g, ' ');
     var map = { '·': 0xB7, '•': 0x95, '–': 0x96, '—': 0x97,
                 '‘': 0x91, '’': 0x92, '“': 0x93, '”': 0x94 };
     var out = '';
@@ -975,8 +975,32 @@
     return lines.length;
   };
 
+  // Coloured box with a title and wrapped text (used for the industry warning).
+  Doc.prototype.callout = function (title, str, bg, border, titleColor) {
+    var w = CONTENT_W - 24, lines = wrap(str, 9.5, false, w);
+    var h = 36 + lines.length * 13.5;
+    this.ensure(h + 8);
+    this.rect(MARGIN, this.y, CONTENT_W, h, bg, border);
+    this.text(MARGIN + 12, this.y + 18, title, 10.5, true, titleColor);
+    var ty = this.y + 35, self = this;
+    lines.forEach(function (ln) { self.text(MARGIN + 12, ty, ln, 9.5, false, COLORS.ink); ty += 13.5; });
+    this.y += h + 10;
+  };
+
+  // "Label: value" row with a wrapped value column.
+  Doc.prototype.kv = function (label, value) {
+    var lines = wrap(value || '-', 10, false, CONTENT_W - 140), self = this;
+    this.ensure(lines.length * 14.5 + 4);
+    this.text(MARGIN, this.y + 10, label, 10, true, COLORS.ink);
+    lines.forEach(function (ln) {
+      self.text(MARGIN + 140, self.y + 10, ln, 10, false, COLORS.body);
+      self.y += 14.5;
+    });
+    this.y += 4;
+  };
+
   Doc.prototype.heading = function (str) {
-    this.ensure(40);
+    this.ensure(80);
     this.y += 10;
     this.rect(MARGIN, this.y, 3, 16, COLORS.brand);
     this.text(MARGIN + 10, this.y + 12.5, str, 13, true, COLORS.navy);
@@ -1085,6 +1109,16 @@
     descLines.forEach(function (ln) { doc.text(textX, ty, ln, 10, false, COLORS.body); ty += 14.5; });
     doc.y += cardH + 14;
 
+    // Industry mismatch warning
+    var A = d.analysis || null;
+    if (A && A.industryAnalysis && A.industryAnalysis.differentIndustries) {
+      doc.callout('DIFFERENT INDUSTRIES DETECTED',
+        'Resume industry: ' + A.industryAnalysis.resumeIndustry + '. Job industry: ' + A.industryAnalysis.jobIndustry +
+        '. A low score here reflects a career-field difference. The full skill, experience and education analysis is still shown below, ' +
+        'including every required skill that was not found in the resume.',
+        '#FFF7ED', '#FED7AA', COLORS.orangeInk);
+    }
+
     // Stat boxes
     var stats = [
       { l: 'Skill Coverage', v: d.coverage, bg: COLORS.violetSoft, fg: COLORS.brand, lc: COLORS.body },
@@ -1119,10 +1153,26 @@
     doc.heading('Missing Skills' + (d.missing.length ? ' (' + d.missing.length + ')' : ''));
     doc.para('Target job competencies not yet detected in your CV.', { size: 9, color: COLORS.muted });
     doc.y += 4;
-    if (d.missing.length) doc.pills(d.missing, COLORS.orangeSoft, COLORS.orangeInk);
+    if (d.missing.length) doc.pills(d.missing.map(function (m) { return d.partial.indexOf(m) > -1 ? m + ' (partial)' : m; }), COLORS.orangeSoft, COLORS.orangeInk);
     else doc.para('No skill gaps were found - every required skill was detected.', { size: 10 });
     doc.para('Tip: only add missing skills where you have genuine academic, project or professional experience.',
       { size: 8.5, color: COLORS.muted });
+
+    // Partially matched skills
+    doc.heading('Partially Matched Skills' + (d.partialDetails.length ? ' (' + d.partialDetails.length + ')' : ''));
+    doc.para('Related evidence exists in the resume, but the requirement is not fully confirmed. These skills also stay in Missing Skills.',
+      { size: 9, color: COLORS.muted });
+    doc.y += 4;
+    if (d.partialDetails.length) {
+      d.partialDetails.forEach(function (t) {
+        doc.ensure(16);
+        doc.text(MARGIN + 2, doc.y + 10, '-', 10, true, COLORS.blueInk);
+        doc.para(t, { x: MARGIN + 16, size: 10 });
+        doc.y += 3;
+      });
+    } else {
+      doc.para('No partial skill matches were identified.', { size: 10 });
+    }
 
     // Similarity
     doc.heading('Text Similarity');
@@ -1130,6 +1180,32 @@
     doc.bar('Job Keyword Overlap', d.overlap, parseFloat(d.overlap), COLORS.greenSoft, COLORS.green);
     doc.para('Resume words: ' + d.resumeWords + '   |   Job description words: ' + d.jdWords +
       '   |   Shared terms: ' + d.sharedTerms, { size: 9.5, color: COLORS.body });
+
+    // Industry, experience and education
+    if (A) {
+      var ind = A.industryAnalysis || {}, exp = A.experienceAnalysis || {}, edu = A.educationAnalysis || {};
+
+      doc.heading('Industry Comparison');
+      doc.kv('Resume industry', ind.resumeIndustry || 'Not identified');
+      doc.kv('Job industry', ind.jobIndustry || 'Not identified');
+      doc.kv('Assessment', ind.message || '');
+
+      doc.heading('Experience Analysis');
+      doc.kv('In resume', exp.resumeYears != null ? exp.resumeYears + ' years' : 'Duration not stated');
+      doc.kv('Job requirement', exp.requiredYears != null ? exp.requiredYears + ' years' : 'Not specified');
+      doc.kv('Assessment', (exp.status || '') + (exp.message ? '. ' + exp.message : ''));
+      (exp.evidence || []).slice(0, 4).forEach(function (t) {
+        doc.ensure(16);
+        doc.text(MARGIN + 2, doc.y + 10, '-', 10, true, COLORS.brand);
+        doc.para(t, { x: MARGIN + 16, size: 9.5 });
+        doc.y += 2;
+      });
+
+      doc.heading('Education Analysis');
+      doc.kv('In resume', (edu.resumeEducation || [])[0] || 'Not identified');
+      doc.kv('Job requirement', (edu.requiredEducation || [])[0] || 'Not specified');
+      doc.kv('Assessment', (edu.status || '') + (edu.message ? '. ' + edu.message : ''));
+    }
 
     // Summary
     doc.heading('Analysis Summary');
@@ -1189,10 +1265,25 @@
     if (!root) return out;
     var items = root.querySelectorAll('li');
     for (var i = 0; i < items.length; i++) {
-      var t = (items[i].textContent || '').replace(/\s+/g, ' ').trim();
+      var spans = items[i].querySelectorAll('span'), node = spans.length ? spans[spans.length - 1] : items[i];
+      var t = (node.textContent || '').replace(/\s+/g, ' ').trim();
       if (t) out.push(t);
     }
     return out;
+  }
+
+  function pick(key, fallback) {
+    var a = window.SkillAlignLatestAnalysis;
+    return a && Array.isArray(a[key]) ? a[key] : fallback;
+  }
+
+  function partialLines() {
+    var a = window.SkillAlignLatestAnalysis;
+    if (!a || !Array.isArray(a.partialSkillEvidence)) return [];
+    return a.partialSkillEvidence.filter(function (e) { return e && e.skill; }).map(function (e) {
+      var detail = e.reason || e.evidence || '';
+      return e.skill + (detail ? ': ' + detail : '');
+    });
   }
 
   function readResults() {
@@ -1217,9 +1308,12 @@
       resumeWords: txt('stat-resume-words') || '0',
       jdWords: txt('stat-jd-words') || '0',
       sharedTerms: txt('stat-shared-terms') || '0',
-      matched: leaves('results-matched-container'),
-      missing: leaves('results-missing-container'),
-      bonus: leaves('results-bonus-container'),
+      analysis: window.SkillAlignLatestAnalysis || null,
+      matched: pick('matchedSkills', leaves('results-matched-container')),
+      missing: pick('missingSkills', leaves('results-missing-container')),
+      bonus: pick('bonusSkills', leaves('results-bonus-container')),
+      partial: pick('partialMatchedSkills', []),
+      partialDetails: partialLines(),
       overview: txt('summary-overview'),
       strengths: listItems('summary-strengths'),
       recs: listItems('summary-recommendations')
